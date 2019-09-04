@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-    <form class="px-8 pt-6 pb-8 mb-4 text-lg">
+    <form class="px-8 pt-6 pb-8 mb-4 text-lg" @submit.prevent="submitForm">
       <div class="mb-2">
         <input v-model="email" class="bg-black shadow opacity-50 appearance-none border border-indigo-800 rounded-lg w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username">
       </div>
@@ -9,7 +9,7 @@
         <!--<p class="text-red-500 text-xs italic">Please choose a password.</p>-->
       </div>
       <div class="mb-6">
-        <button @click="submitForm" class="w-full bg-indigo-700 hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" type="button">
+        <button class="w-full bg-indigo-700 hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" type="button">
           Sign In
         </button>
       </div>
@@ -33,7 +33,7 @@ import { Vue } from 'vue-property-decorator'
 import { ApplicationRecord } from '@/models'
 
 export default Vue.extend({
-  data() {
+  data () {
     return {
       submitting: false,
       email: null,
@@ -42,7 +42,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    submitForm() {
+    submitForm () {
       const baseURL = 'https://master-auth.book-ecosystem.dev/users/sign_in'
       const headers = { 'Content-Type': 'application/json', 'Accept': 'application/json' }
       const data = { user: { email: this.email, password: this.password } }
@@ -54,13 +54,13 @@ export default Vue.extend({
         method: 'post',
         responseType: 'json'
       })
-      .then((result) => {
-        ApplicationRecord.jwt = result.headers['authorization'].replace('Bearer ', '')
-        localStorage.setItem('currentUser', JSON.stringify(result.data))
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        .then((result) => {
+          ApplicationRecord.jwt = result.headers['authorization'].replace('Bearer ', '')
+          localStorage.setItem('currentUser', JSON.stringify(result.data))
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 })

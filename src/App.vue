@@ -27,23 +27,23 @@
 import { Vue } from 'vue-property-decorator'
 
 export default Vue.extend({
-  data() {
+  data () {
     return {
       modelLinks: [
         { name: 'Dashboard', path: '/dashboard' },
         { name: 'Books', path: '/books' },
         { name: 'Authors', path: '/authors' },
-        { name: 'Publishers', path: '/publishers' },
+        { name: 'Publishers', path: '/publishers' }
       ]
     }
   },
   methods: {
-    logout() {
+    logout () {
       localStorage.setItem('currentUser', null)
     }
   },
   computed: {
-    currentUser: function() {
+    currentUser: function () {
       return JSON.parse(localStorage.getItem('currentUser'))
     }
   }

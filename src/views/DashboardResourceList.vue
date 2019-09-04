@@ -1,8 +1,8 @@
 <template>
   <div class="mt-4">
     <div class="flex pagination flex-row-reverse pb-4">
-      <button class="ml-1 pagination-button" :disabled="!hasNextPage">&gt;</button>
-      <button class="px-4 pagination-button" :disabled="!hasPrevPage">&lt;</button>
+      <button class="ml-1 pagination-button" :disabled="!hasNextPage" @click="nextPage">&gt;</button>
+      <button class="px-4 pagination-button" :disabled="!hasPrevPage" @click="prevPage">&lt;</button>
       <span class="py-2 px-2">Displaying page {{ currentPage }} of {{ totalPages }}</span>
      </div>
     <table class="table w-full">
@@ -22,7 +22,7 @@
           <td class="text-left border-b border-indigo-900 px-4 py-2">{{ record.publicationDate }}</td>
           <td class="text-left border-b border-indigo-900 px-4 py-2">{{ record.pageCount }}</td>
           <td class="text-left border-b border-indigo-900 px-4 py-2">
-            <a href="#" class="text-blue-500 mx-2 hover:underline">edit</a>
+            <a href="#" @click="editRecord(record.id)" class="text-blue-500 mx-2 hover:underline">edit</a>
             <a href="#" class="text-red-500 mx-2 hover:underline">delete</a>
           </td>
         </tr>
@@ -44,41 +44,53 @@ export default Vue.extend({
       required: true
     }
   },
-  data() {
+  data () {
     return {
       collection: [],
       totalCount: 0,
       currentPage: 1
     }
   },
-  mounted() {
-    this.fetchCollection();
+  mounted () {
+    this.fetchCollection()
   },
   methods: {
-    async fetchCollection() {
+    async fetchCollection () {
       let { data, meta } = await this.scope.all()
       this.collection = data
       this.totalCount = meta.stats.total.count
+    },
+    nextPage () {
+      this.currentPage++
+      this.fetchCollection()
+    },
+    prevPage () {
+      this.currentPage--
+      this.fetchCollection()
+    },
+    editRecord (id) {
+      const resource = this.collectionName.toLowerCase()
+      this.$router.push({ path: `/${resource}/${id}/edit` })
     }
   },
   computed: {
-    collectionName: function() {
+    collectionName: function () {
       return pluralize(this.model.name.toString())
     },
-    scope() : Scope<typeof this.model> {
+    scope () : Scope<typeof this.model> {
       return this.model
         .page(this.currentPage)
         .per(50)
-        .stats({ total: "count" })
+        .stats({ total: 'count' })
     },
-    totalPages: function() {
+    totalPages: function () {
       const rawPageCount = (this.totalCount / 50)
       return Math.ceil(rawPageCount)
     },
-    hasPrevPage() : boolean {
+    hasPrevPage () : boolean {
       return this.currentPage > 1
     },
-    hasNextPage() : boolean {
+    hasNextPage () : boolean {
       return (this.currentPage * 10) < (this.totalCount || 0)
     }
   }

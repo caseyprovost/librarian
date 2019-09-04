@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Authentication from './views/Authentication.vue'
 import Dashboard from './views/Dashboard.vue'
 import DashboardResourceList from './views/DashboardResourceList.vue'
+import EditResource from './views/EditResource.vue'
 import { Book } from '@/models'
 
 Vue.use(Router)
@@ -42,6 +43,13 @@ export default new Router({
       name: 'books',
       component: DashboardResourceList,
       props: { model: Book },
+      beforeEnter: requireUser
+    },
+    {
+      path: '/:collectionName/:id/edit',
+      name: 'resource-edit',
+      component: EditResource,
+      props: true,
       beforeEnter: requireUser
     },
     {

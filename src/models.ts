@@ -11,8 +11,9 @@ import {
 export class ApplicationRecord extends SpraypaintBase {
   static baseUrl = 'https://bookshelf.book-ecosystem.dev/'
   static apiNamespace = 'v1'
+  static schema = {}
 
-  static generateAuthHeader(token) {
+  static generateAuthHeader (token) {
     return `Bearer ${token}`
   }
 }
@@ -22,6 +23,13 @@ export class Book extends ApplicationRecord {
   static jsonapiType = 'books'
 
   foos: string[]
+
+  static schema = {
+    name: 'title',
+    label: 'Title',
+    required: true,
+    type: 'input'
+  }
 
   @Attr() title: string
   @Attr() summary: string

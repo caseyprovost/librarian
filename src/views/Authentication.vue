@@ -22,14 +22,14 @@ export default Vue.extend({
     Signup,
     ForgotPassword
   },
-  data() {
+  data () {
     return {
       displayLogin: true,
       displaySignup: false,
       displayForgotPassword: false
     }
   }
-});
+})
 </script>
 
 <style lang="scss" scoped>
