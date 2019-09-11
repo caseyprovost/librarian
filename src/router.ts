@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Authentication from './views/Authentication.vue'
+import Login from './components/Login.vue'
 import Dashboard from './views/Dashboard.vue'
 
 import {
@@ -36,7 +36,7 @@ const requireNoUser = (to, from, next) => {
 
 const requireUser = (to, from, next) => {
   if (!localStorage.getItem('currentUser')) {
-    next('/')
+    next('/login')
   } else {
     next()
   }
@@ -46,8 +46,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Authentication,
+      name: 'login',
+      component: Login,
       beforeEnter: requireNoUser
     },
     {

@@ -1,7 +1,7 @@
 <template>
   <div class="home flex">
     <div class="m-auto w-1/4">
-      <h1 class="text-center text-teal-500 text-4xl">BookSystem Admin</h1>
+      <h1 class="text-center text-teal-500 text-4xl">Librarian</h1>
       <h3 class="text-center text-indigo-500 text-xl">Let out the inner wizard</h3>
       <Login v-show="displayLogin" />
       <Signup v-show="displaySignup" />

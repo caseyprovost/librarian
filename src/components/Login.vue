@@ -9,7 +9,7 @@
         <!--<p class="text-red-500 text-xs italic">Please choose a password.</p>-->
       </div>
       <div class="mb-6">
-        <button class="w-full bg-indigo-700 hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" type="button">
+        <button class="w-full bg-indigo-700 hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" type="submit">
           Sign In
         </button>
       </div>
