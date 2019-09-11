@@ -8,21 +8,23 @@
     <table class="table w-full">
       <thead>
         <tr>
-          <th class="text-left border-b border-indigo-900 text-teal-500 px-4 py-2">Title</th>
-          <th class="text-left border-b border-indigo-900 text-teal-500 px-4 py-2">Published On</th>
-          <th class="text-left border-b border-indigo-900 text-teal-500 px-4 py-2">Page Count</th>
+          <th class="text-left border-b border-indigo-900 text-teal-500 px-4 py-2">Name</th>
+          <th class="text-left border-b border-indigo-900 text-teal-500 px-4 py-2">Home Town</th>
+          <th class="text-left border-b border-indigo-900 text-teal-500 px-4 py-2">Born On</th>
           <th class="text-left border-b border-indigo-900 text-teal-500 px-4 py-2"></th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="record in collection" :key="record.id">
           <td class="text-left border-b border-indigo-900 px-4 py-2">
-            <a href="#" class="text-indigo-500 hover:underline">{{ record.title }}</a>
+            <a href="#" class="text-indigo-500 hover:underline">{{ record.name }}</a>
           </td>
-          <td class="text-left border-b border-indigo-900 px-4 py-2">{{ record.publicationDate }}</td>
-          <td class="text-left border-b border-indigo-900 px-4 py-2">{{ record.pageCount }}</td>
+          <td class="text-left border-b border-indigo-900 px-4 py-2">{{ record.hometown }}</td>
+          <td class="text-left border-b border-indigo-900 px-4 py-2">{{ record.dateOfBirth }}</td>
           <td class="text-left border-b border-indigo-900 px-4 py-2">
-            <a href="#" @click="editRecord(record.id)" class="text-blue-500 mx-2 hover:underline">edit</a>
+            <router-link :to="editAuthorPath(record.id)" class="text-blue-500 mx-2 hover:underline">
+              edit
+            </router-link>
             <a href="#" class="text-red-500 mx-2 hover:underline">delete</a>
           </td>
         </tr>
@@ -33,17 +35,10 @@
 
 <script lang="ts">
 import { Vue } from 'vue-property-decorator'
-import { Book } from '@/models'
+import { Author } from '@/models'
 import { Scope } from 'spraypaint'
-import pluralize from 'pluralize'
 
 export default Vue.extend({
-  props: {
-    model: {
-      type: Function,
-      required: true
-    }
-  },
   data () {
     return {
       collection: [],
@@ -68,17 +63,13 @@ export default Vue.extend({
       this.currentPage--
       this.fetchCollection()
     },
-    editRecord (id) {
-      const resource = this.collectionName.toLowerCase()
-      this.$router.push({ path: `/${resource}/${id}/edit` })
+    editAuthorPath (id) {
+      return `/authors/${id}/edit`
     }
   },
   computed: {
-    collectionName: function () {
-      return pluralize(this.model.name.toString())
-    },
-    scope () : Scope<typeof this.model> {
-      return this.model
+    scope () : Scope<typeof Author> {
+      return Author
         .page(this.currentPage)
         .per(50)
         .stats({ total: 'count' })
@@ -87,11 +78,11 @@ export default Vue.extend({
       const rawPageCount = (this.totalCount / 50)
       return Math.ceil(rawPageCount)
     },
-    hasPrevPage () : boolean {
+    hasPrevPage: function () {
       return this.currentPage > 1
     },
-    hasNextPage () : boolean {
-      return (this.currentPage * 10) < (this.totalCount || 0)
+    hasNextPage: function () {
+      return this.currentPage < this.totalPages
     }
   }
 })

@@ -11,10 +11,20 @@ import {
 export class ApplicationRecord extends SpraypaintBase {
   static baseUrl = 'https://bookshelf.book-ecosystem.dev/'
   static apiNamespace = 'v1'
-  static schema = {}
+  static schemaCache = null
 
   static generateAuthHeader (token) {
     return `Bearer ${token}`
+  }
+
+  static async schema () {
+    if (this.schemaCache === null) {
+      let response = await fetch(`${this.baseUrl}${this.apiNamespace}/vandal/schema.json`)
+      let data = await response.json()
+      this.schemaCache = data
+    }
+
+    return this.schemaCache
   }
 }
 
@@ -23,13 +33,6 @@ export class Book extends ApplicationRecord {
   static jsonapiType = 'books'
 
   foos: string[]
-
-  static schema = {
-    name: 'title',
-    label: 'Title',
-    required: true,
-    type: 'input'
-  }
 
   @Attr() title: string
   @Attr() summary: string
@@ -43,4 +46,36 @@ export class Book extends ApplicationRecord {
   get fullName () {
     return `${this.firstName} ${this.lastName}`
   }
+}
+
+@Model()
+export class Author extends ApplicationRecord {
+  static baseUrl = 'https://author-registry.book-ecosystem.dev/'
+  static apiNamespace = 'v1'
+  static schemaCache = null
+  static jsonapiType = 'authors'
+
+  foos: string[]
+
+  @Attr() name: string
+  @Attr() bio: string
+  @Attr() hometown: string
+  @Attr() dateOfBirth: string
+  @Attr() createdAt: string
+  @Attr() updatedAt: string
+}
+
+@Model()
+export class Publisher extends ApplicationRecord {
+  static baseUrl = 'https://publisher-registry.book-ecosystem.dev/'
+  static apiNamespace = 'v1'
+  static schemaCache = null
+  static jsonapiType = 'publishers'
+
+  foos: string[]
+
+  @Attr() name: string
+  @Attr() description: string
+  @Attr() createdAt: string
+  @Attr() updatedAt: string
 }

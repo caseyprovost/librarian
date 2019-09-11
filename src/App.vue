@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="flex-wrap">
-    <div id="brand" class="text-3xl text-center float-left py-1 font-medium text-teal-500">
+    <div id="brand" class="text-3xl text-center float-left py-1 font-medium text-indigo-700">
       Librarian
     </div>
     <div id="nav" v-if="currentUser" class="py-4 px-6 shadow text-right">
@@ -10,7 +10,7 @@
       <div id="sidebar" v-if="currentUser" class="shadow">
         <ul class="sidebar-nav pt-16">
           <li v-for="link in modelLinks" :key="link.name">
-            <router-link :to="link.path" class="px-8 py-2 block hover:bg-teal-700 hover:text-indigo-100" activeClass="active">
+            <router-link :to="link.path" class="px-8 py-2 block" activeClass="active">
               {{ link.name }}
             </router-link>
           </li>
@@ -51,6 +51,27 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
+@import "vue-select/src/scss/vue-select.scss";
+
+.vs__search::placeholder,
+.vs__dropdown-toggle,
+.vs__dropdown-menu {
+  @apply text-indigo-100;
+  @apply border;
+  @apply border-indigo-900;
+  @apply p-2;
+}
+
+.vs__selected {
+  @apply text-gray-500;
+}
+
+.vs__clear,
+.vs__open-indicator {
+  fill: #394066;
+  @apply text-indigo-100;
+}
+
 body {
   font-family: Nunito,Helvetica Neue,Helvetica,Arial,sans-serif;
   background: #262141;
@@ -68,6 +89,7 @@ body {
   border-top: 1px solid #302850;
   box-sizing: border-box;
   background: #2E2950;
+  @apply text-gray-500;
 }
 
 #main {
@@ -77,7 +99,7 @@ body {
 }
 
 #nav {
-  margin-left: 234px;
+  margin-left: 227px;
   border-left: 1px solid #302850;
   border-bottom: 1px solid #302850;
   background: #2E2950;
@@ -88,8 +110,12 @@ body {
 }
 
 .sidebar-nav a.active {
-  background: #2c7a7b;
-  color: #ebf4ff;
-  font-weight: 800;
+  @apply text-indigo-100;
+  @apply bg-indigo-800;
+}
+
+.sidebar-nav a:hover {
+  @apply text-indigo-100;
+  @apply bg-indigo-800;
 }
 </style>

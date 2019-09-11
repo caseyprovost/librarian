@@ -2,9 +2,27 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Authentication from './views/Authentication.vue'
 import Dashboard from './views/Dashboard.vue'
-import DashboardResourceList from './views/DashboardResourceList.vue'
-import EditResource from './views/EditResource.vue'
-import { Book } from '@/models'
+
+import {
+  Book,
+  Author,
+  Publisher
+} from '@/models'
+
+import {
+  BookList,
+  EditBook
+} from './views/books'
+
+import {
+  AuthorList,
+  EditAuthor
+} from './views/authors'
+
+import {
+  PublisherList,
+  EditPublisher
+} from './views/publishers'
 
 Vue.use(Router)
 
@@ -41,14 +59,39 @@ export default new Router({
     {
       path: '/books',
       name: 'books',
-      component: DashboardResourceList,
-      props: { model: Book },
+      component: BookList,
       beforeEnter: requireUser
     },
     {
-      path: '/:collectionName/:id/edit',
-      name: 'resource-edit',
-      component: EditResource,
+      path: '/books/:id/edit',
+      name: 'books-edit',
+      component: EditBook,
+      props: true,
+      beforeEnter: requireUser
+    },
+    {
+      path: '/authors',
+      name: 'authors',
+      component: AuthorList,
+      beforeEnter: requireUser
+    },
+    {
+      path: '/authors/:id/edit',
+      name: 'authors-edit',
+      component: EditAuthor,
+      props: true,
+      beforeEnter: requireUser
+    },
+    {
+      path: '/publishers',
+      name: 'publishers',
+      component: PublisherList,
+      beforeEnter: requireUser
+    },
+    {
+      path: '/publishers/:id/edit',
+      name: 'publishers-edit',
+      component: EditPublisher,
       props: true,
       beforeEnter: requireUser
     },
