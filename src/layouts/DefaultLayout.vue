@@ -39,12 +39,14 @@ export default Vue.extend({
   },
   methods: {
     logout () {
-      localStorage.removeItem('currentUser')
+      this.$store.commit('REMOVE_CURRENT_USER')
+      this.$router.push({ path: '/' })
+      this.$store.commit('SET_LAYOUT', 'authentication-layout')
     }
   },
   computed: {
     currentUser: function () {
-      return JSON.parse(localStorage.getItem('currentUser'))
+      return this.$store.getters.currentUser
     }
   }
 })

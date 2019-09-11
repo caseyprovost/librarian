@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <component v-bind:is="layout"></component>
+    <component :is="layout"></component>
   </div>
 </template>
 
@@ -14,12 +14,15 @@ export default Vue.extend({
     'default-layout': DefaultLayout,
     'authentication-layout': AuthenticationLayout
   },
+  mounted () {
+    if (this.currentUser) { this.$store.commit('SET_LAYOUT', 'default-layout') } else { this.$store.commit('SET_LAYOUT', 'authentication-layout') }
+  },
   computed: {
     layout () {
-      if (this.currentUser) { return 'default-layout' } else { return 'authentication-layout' }
+      return this.$store.getters.layout
     },
-    currentUser: function () {
-      return JSON.parse(localStorage.getItem('currentUser'))
+    currentUser () {
+      return this.$store.getters.currentUser
     }
   }
 })

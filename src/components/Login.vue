@@ -56,7 +56,9 @@ export default Vue.extend({
       })
         .then((result) => {
           ApplicationRecord.jwt = result.headers['authorization'].replace('Bearer ', '')
-          localStorage.setItem('currentUser', JSON.stringify(result.data))
+          this.$store.commit('SET_CURRENT_USER', result.data)
+          this.$router.push({ path: '/dashboard' })
+          this.$store.commit('SET_LAYOUT', 'default-layout')
         })
         .catch(error => {
           console.log(error)
