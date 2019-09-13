@@ -8,6 +8,7 @@
 import { Vue } from 'vue-property-decorator'
 import DefaultLayout from './layouts/DefaultLayout'
 import AuthenticationLayout from './layouts/AuthenticationLayout'
+import { mapGetters } from 'vuex'
 
 export default Vue.extend({
   components: {
@@ -15,15 +16,14 @@ export default Vue.extend({
     'authentication-layout': AuthenticationLayout
   },
   mounted () {
-    if (this.currentUser) { this.$store.commit('SET_LAYOUT', 'default-layout') } else { this.$store.commit('SET_LAYOUT', 'authentication-layout') }
+    const layout = this.currentUser ? 'default-layout' : 'authentication-layout'
+    this.$store.dispatch('setLayout', layout)
   },
   computed: {
-    layout () {
-      return this.$store.getters.layout
-    },
-    currentUser () {
-      return this.$store.getters.currentUser
-    }
+    ...mapGetters([
+      'layout',
+      'currentUser'
+    ])
   }
 })
 </script>

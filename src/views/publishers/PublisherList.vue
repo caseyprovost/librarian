@@ -36,32 +36,24 @@
 <script lang="ts">
 import { Vue } from 'vue-property-decorator'
 import { Publisher } from '@/models'
-import { Scope } from 'spraypaint'
+import { mapGetters } from 'vuex'
 
 export default Vue.extend({
   data () {
-    return {
-      collection: [],
-      totalCount: 0,
-      currentPage: 1
-    }
+    return {}
   },
   mounted () {
     this.fetchCollection()
   },
   methods: {
-    async fetchCollection () {
-      let { data, meta } = await this.scope.all()
-      this.collection = data
-      this.totalCount = meta.stats.total.count
+    fetchCollection () {
+      this.$store.dispatch('publishers/fetchCollection')
     },
     nextPage () {
-      this.currentPage++
-      this.fetchCollection()
+      this.$store.dispatch('publishers/incrementPage')
     },
     prevPage () {
-      this.currentPage--
-      this.fetchCollection()
+      this.$store.dispatch('publishers/decrementPage')
     },
     editPath (id) {
       return `/publishers/${id}/edit`
@@ -71,22 +63,16 @@ export default Vue.extend({
     }
   },
   computed: {
-    scope () : Scope<typeof Publisher> {
-      return Publisher
-        .page(this.currentPage)
-        .per(50)
-        .stats({ total: 'count' })
-    },
-    totalPages: function () {
-      const rawPageCount = (this.totalCount / 50)
-      return Math.ceil(rawPageCount)
-    },
-    hasPrevPage: function () {
-      return this.currentPage > 1
-    },
-    hasNextPage: function () {
-      return this.currentPage < this.totalPages
-    }
+    ...mapGetters({
+      collection: 'publishers/collection',
+      totalCount: 'publishers/totalCount',
+      currentPage: 'publishers/currentPage',
+      totalPages: 'publishers/totalPages',
+      hasPrevPage: 'publishers/hasPrevPage',
+      hasNextPage: 'publishers/hasNextPage',
+      filters: 'publishers/filters',
+      sorts: 'publishers/sorts'
+    })
   }
 })
 </script>

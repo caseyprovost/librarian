@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from './components/Login.vue'
+import Login from '@/components/Login.vue'
 import Dashboard from './views/Dashboard.vue'
-import { store } from './store'
+import store from '@/store'
 
 import {
   Book,
@@ -29,8 +29,9 @@ Vue.use(Router)
 
 const requireNoUser = (to, from, next) => {
   if (store.getters.currentUser) {
-    next('/dashboard')
-    store.commit('SET_LAYOUT', 'default-layout')
+    store.dispatch('setLayout', 'default-layout').then(() => {
+      next('/dashboard')
+    })
   } else {
     next()
   }
@@ -38,8 +39,9 @@ const requireNoUser = (to, from, next) => {
 
 const requireUser = (to, from, next) => {
   if (!store.getters.currentUser) {
-    next('/')
-    store.commit('SET_LAYOUT', 'authentication-layout')
+    store.dispatch('setLayout', 'authentication-layout').then(() => {
+      next('/')
+    })
   } else {
     next()
   }

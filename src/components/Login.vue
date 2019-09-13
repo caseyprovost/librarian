@@ -43,26 +43,10 @@ export default Vue.extend({
   },
   methods: {
     submitForm () {
-      const baseURL = 'https://master-auth.book-ecosystem.dev/users/sign_in'
-      const headers = { 'Content-Type': 'application/json', 'Accept': 'application/json' }
       const data = { user: { email: this.email, password: this.password } }
-
-      this.$http.request({
-        url: baseURL,
-        data: data,
-        headers: headers,
-        method: 'post',
-        responseType: 'json'
+      this.$store.dispatch('login', data).then(() => {
+        this.$router.push({ path: '/dashboard' })
       })
-        .then((result) => {
-          ApplicationRecord.jwt = result.headers['authorization'].replace('Bearer ', '')
-          this.$store.commit('SET_CURRENT_USER', result.data)
-          this.$router.push({ path: '/dashboard' })
-          this.$store.commit('SET_LAYOUT', 'default-layout')
-        })
-        .catch(error => {
-          console.log(error)
-        })
     }
   }
 })

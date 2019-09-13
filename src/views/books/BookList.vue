@@ -22,7 +22,7 @@
           <td class="text-left border-b border-indigo-900 px-4 py-2">{{ record.publicationDate }}</td>
           <td class="text-left border-b border-indigo-900 px-4 py-2">{{ record.pageCount }}</td>
           <td class="text-left border-b border-indigo-900 px-4 py-2">
-            <router-link :to="bookPath(record.id)" class="text-blue-500 mx-2 hover:underline">
+            <router-link :to="editPath(record.id)" class="text-blue-500 mx-2 hover:underline">
               edit
             </router-link>
             <a href="#" class="text-red-500 mx-2 hover:underline">delete</a>
@@ -36,54 +36,43 @@
 <script lang="ts">
 import { Vue } from 'vue-property-decorator'
 import { Book } from '@/models'
-import { Scope } from 'spraypaint'
+import { mapGetters } from 'vuex'
 
 export default Vue.extend({
   data () {
-    return {
-      collection: [],
-      totalCount: 0,
-      currentPage: 1
-    }
+    return {}
   },
   mounted () {
     this.fetchCollection()
   },
   methods: {
-    async fetchCollection () {
-      let { data, meta } = await this.scope.all()
-      this.collection = data
-      this.totalCount = meta.stats.total.count
+    fetchCollection () {
+      this.$store.dispatch('books/fetchCollection')
     },
     nextPage () {
-      this.currentPage++
-      this.fetchCollection()
+      this.$store.dispatch('books/incrementPage')
     },
     prevPage () {
-      this.currentPage--
-      this.fetchCollection()
+      this.$store.dispatch('books/decrementPage')
     },
-    bookPath (id) {
+    editPath (id) {
       return `/books/${id}/edit`
+    },
+    truncateString (str, num) {
+      return str.length > num ? str.slice(0, num > 3 ? num - 3 : num) + '...' : str
     }
   },
   computed: {
-    scope () : Scope<typeof Book> {
-      return Book
-        .page(this.currentPage)
-        .per(50)
-        .stats({ total: 'count' })
-    },
-    totalPages: function () {
-      const rawPageCount = (this.totalCount / 50)
-      return Math.ceil(rawPageCount)
-    },
-    hasPrevPage: function () {
-      return this.currentPage > 1
-    },
-    hasNextPage: function () {
-      return this.currentPage < this.totalPages
-    }
+    ...mapGetters({
+      collection: 'books/collection',
+      totalCount: 'books/totalCount',
+      currentPage: 'books/currentPage',
+      totalPages: 'books/totalPages',
+      hasPrevPage: 'books/hasPrevPage',
+      hasNextPage: 'books/hasNextPage',
+      filters: 'books/filters',
+      sorts: 'books/sorts'
+    })
   }
 })
 </script>

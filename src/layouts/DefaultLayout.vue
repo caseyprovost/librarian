@@ -39,9 +39,9 @@ export default Vue.extend({
   },
   methods: {
     logout () {
-      this.$store.commit('REMOVE_CURRENT_USER')
-      this.$router.push({ path: '/' })
-      this.$store.commit('SET_LAYOUT', 'authentication-layout')
+      this.$store.dispatch('logout').then(() => {
+        this.$router.push({ path: '/' })
+      })
     }
   },
   computed: {
