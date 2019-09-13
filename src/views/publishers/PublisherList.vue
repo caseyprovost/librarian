@@ -35,44 +35,16 @@
 
 <script lang="ts">
 import { Vue } from 'vue-property-decorator'
-import { Publisher } from '@/models'
-import { mapGetters } from 'vuex'
+import { loadPaginationMixin, listPageMixin } from '@/utilities.ts'
+
+const paginationMixin = loadPaginationMixin('publishers')
 
 export default Vue.extend({
-  data () {
-    return {}
-  },
-  mounted () {
-    this.fetchCollection()
-  },
+  mixins: [paginationMixin, listPageMixin],
   methods: {
-    fetchCollection () {
-      this.$store.dispatch('publishers/fetchCollection')
-    },
-    nextPage () {
-      this.$store.dispatch('publishers/incrementPage')
-    },
-    prevPage () {
-      this.$store.dispatch('publishers/decrementPage')
-    },
-    editPath (id) {
-      return `/publishers/${id}/edit`
-    },
     truncateString (str, num) {
       return str.length > num ? str.slice(0, num > 3 ? num - 3 : num) + '...' : str
     }
-  },
-  computed: {
-    ...mapGetters({
-      collection: 'publishers/collection',
-      totalCount: 'publishers/totalCount',
-      currentPage: 'publishers/currentPage',
-      totalPages: 'publishers/totalPages',
-      hasPrevPage: 'publishers/hasPrevPage',
-      hasNextPage: 'publishers/hasNextPage',
-      filters: 'publishers/filters',
-      sorts: 'publishers/sorts'
-    })
   }
 })
 </script>

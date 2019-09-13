@@ -35,42 +35,12 @@
 
 <script lang="ts">
 import { Vue } from 'vue-property-decorator'
-import { Author } from '@/models'
-import { mapGetters } from 'vuex'
+import { loadPaginationMixin, listPageMixin } from '@/utilities.ts'
+
+const paginationMixin = loadPaginationMixin('authors')
 
 export default Vue.extend({
-  data () {
-    return {}
-  },
-  mounted () {
-    this.fetchCollection()
-  },
-  methods: {
-    fetchCollection () {
-      this.$store.dispatch('authors/fetchCollection')
-    },
-    nextPage () {
-      this.$store.dispatch('authors/incrementPage')
-    },
-    prevPage () {
-      this.$store.dispatch('authors/decrementPage')
-    },
-    editPath (id) {
-      return `/authors/${id}/edit`
-    }
-  },
-  computed: {
-    ...mapGetters({
-      collection: 'authors/collection',
-      totalCount: 'authors/totalCount',
-      currentPage: 'authors/currentPage',
-      totalPages: 'authors/totalPages',
-      hasPrevPage: 'authors/hasPrevPage',
-      hasNextPage: 'authors/hasNextPage',
-      filters: 'authors/filters',
-      sorts: 'authors/sorts'
-    })
-  }
+  mixins: [paginationMixin, listPageMixin]
 })
 </script>
 
