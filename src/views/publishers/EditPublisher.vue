@@ -42,9 +42,10 @@
   </div>
 </template>
 
-<script type="ts">
+<script lang="ts">
 import { Vue } from 'vue-property-decorator'
 import { Publisher } from '@/models'
+import { mapGetters } from 'vuex'
 
 export default Vue.extend({
   props: {
@@ -85,11 +86,16 @@ export default Vue.extend({
         return ''
       }
     }
+  },
+  computed: {
+    // ...mapGetters({
+    //   record: 'publishers/record'
+    // })
   }
 })
 </script>
 
-<style type="scss" scoped="true">
+<style lang="scss" scoped>
   .form-wrapper {
     background: #211C37;
     @apply p-4;

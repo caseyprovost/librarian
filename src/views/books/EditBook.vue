@@ -68,7 +68,7 @@
   </div>
 </template>
 
-<script type="ts">
+<script lang="ts">
 import { Vue } from 'vue-property-decorator'
 import { Scope } from 'spraypaint'
 import { Book, Author, Publisher } from '@/models'
@@ -212,7 +212,7 @@ export default Vue.extend({
 })
 </script>
 
-<style type="scss" scoped="true">
+<style lang="scss" scoped>
   .form-wrapper {
     background: #211C37;
     @apply p-4;

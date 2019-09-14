@@ -32,7 +32,7 @@ const loadPaginationMixin = (collectionName : string) => {
 }
 
 const listPageMixin = {
-  mounted: function() {
+  mounted: function () {
     this.fetchCollection()
   }
 }

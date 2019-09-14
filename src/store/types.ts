@@ -31,12 +31,15 @@ export interface FilteredCollectionState {
 
 export interface PublisherListState extends PaginatedCollectionState, FilteredCollectionState {
   collection: Publisher[] | [];
+  record: Publisher | null;
 }
 
 export interface AuthorListState extends PaginatedCollectionState, FilteredCollectionState {
   collection: Author[] | [];
+  record: Author | null;
 }
 
 export interface BookListState extends PaginatedCollectionState, FilteredCollectionState {
   collection: Book[] | [];
+  record: Book | null;
 }

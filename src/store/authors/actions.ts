@@ -9,9 +9,14 @@ export const actions: ActionTree<AuthorListState, RootState> = {
       .per(50)
       .stats({ total: 'count' })
 
-    scope.all().then((response) => {
+    return scope.all().then((response) => {
       commit('setCollection', response.data)
       commit('setMetaData', response.meta)
+    })
+  },
+  fetchRecord ({ commit, state: PublisherListState }, id): any {
+    return Author.find(id).then((response) => {
+      commit('setRecord', response.data)
     })
   },
   incrementPage ({ commit, state: AuthorListState }): any {

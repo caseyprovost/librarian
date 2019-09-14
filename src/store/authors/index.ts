@@ -10,7 +10,8 @@ export const state: AuthorListState = {
   sorts: [],
   currentPage: 1,
   totalCount: 0,
-  totalPages: 0
+  totalPages: 0,
+  record: null
 }
 
 const namespaced: boolean = true

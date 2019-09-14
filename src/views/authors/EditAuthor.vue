@@ -1,14 +1,14 @@
 <template>
   <div class="form-wrapper">
-    <div v-if="record">
-      <h2 class="text-2xl mb-4 font-medium">{{ record.name }}</h2>
+    <div v-if="editableRecord">
+      <h2 class="text-2xl mb-4 font-medium">{{ editableRecord.name }}</h2>
       <form @submit.prevent="submitForm" class="w-full">
         <div class="flex flex-wrap -mx-3 mb-6">
           <div class="w-full px-3">
             <label class="block uppercase tracking-wide text-xs font-bold mb-2" for="name">
               Name
             </label>
-            <input class="appearance-none block w-full rounded py-3 px-4 mb-2 leading-tight" id="name" type="text" v-model="record.name">
+            <input class="appearance-none block w-full rounded py-3 px-4 mb-2 leading-tight" id="name" type="text" v-model="editableRecord.name">
             <p class="text-red-500 text-xs italic" v-if="hasError('name')">
               {{ errorText('name') }}
             </p>
@@ -19,7 +19,7 @@
             <label class="block uppercase tracking-wide text-xs font-bold mb-2" for="hometown">
               Hometown
             </label>
-            <input class="appearance-none block w-full rounded py-3 px-4 mb-2 leading-tight" id="hometown" type="text" v-model="record.hometown">
+            <input class="appearance-none block w-full rounded py-3 px-4 mb-2 leading-tight" id="hometown" type="text" v-model="editableRecord.hometown">
             <p class="text-red-500 text-xs italic" v-if="hasError('hometown')">
               {{ errorText('hometown') }}
             </p>
@@ -28,7 +28,7 @@
             <label class="block uppercase tracking-wide text-xs font-bold mb-2" for="date_of_birth">
               Born On
             </label>
-            <input class="appearance-none block w-full rounded py-3 px-4 leading-tight" id="date_of_birth" type="date" v-model="record.dateOfBirth">
+            <input class="appearance-none block w-full rounded py-3 px-4 leading-tight" id="date_of_birth" type="date" v-model="editableRecord.dateOfBirth">
           </div>
           <div class="flex flex-wrap mt-4">
             <div class="w-full px-3">
@@ -40,60 +40,69 @@
         </div>
       </form>
     </div>
-    <div v-if="!record">
+    <div v-if="!editableRecord">
       Loading
     </div>
   </div>
 </template>
 
-<script type="ts">
-import { Vue } from 'vue-property-decorator'
+<script lang="ts">
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Author } from '@/models'
+import { mapGetters } from 'vuex'
 
-export default Vue.extend({
-  props: {
-    id: {
-      type: String,
-      required: true
-    }
-  },
-  data () {
-    return {
-      record: null
-    }
-  },
+@Component
+export default class EditAuthor extends Vue {
+  @Prop() id!: string
+
+  editableRecord = null
+  saving = false
+  success = false
+
   mounted () {
-    this.fetchRecord()
-  },
-  methods: {
-    async fetchRecord () {
-      let { data } = await Author.find(this.id)
-      if (data) {
-        this.record = data
-      }
-    },
-    async submitForm () {
-      let success = await this.record.save()
-    },
-    hasError (field) {
-      if (this.record.errors) {
-        return this.record.errors[field] !== null
-      } else {
-        return false
-      }
-    },
-    errorText (field) {
-      if (this.record.errors && this.record.errors[field]) {
-        return this.record.errors[field].message
-      } else {
-        return ''
-      }
+    this.syncRecord()
+  }
+
+  syncRecord () {
+    this.$store.dispatch('authors/fetchRecord', this.id).then(() => {
+      this.editableRecord = this.record.dup()
+    })
+  }
+
+  async submitForm () {
+    let success = await this.editableRecord.save()
+
+    if (success) {
+      this.syncRecord()
+      console.log('success')
+    } else {
+      console.log('error')
     }
   }
-})
+
+  hasError (field) : boolean {
+    if (this.editableRecord && this.editableRecord.errors) {
+      return this.editableRecord.errors[field] !== null
+    } else {
+      return false
+    }
+  }
+
+  errorText (field) : string {
+    if (this.editableRecord.errors && this.editableRecord.errors[field]) {
+      return this.editableRecord.errors[field].message
+    } else {
+      return ''
+    }
+  }
+
+  get record () : Author | null {
+    return this.$store.getters['authors/record']
+  }
+}
 </script>
 
-<style type="scss" scoped="true">
+<style lang="scss" scoped>
   .form-wrapper {
     background: #211C37;
     @apply p-4;

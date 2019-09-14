@@ -26,5 +26,8 @@ export default {
   },
   hasNextPage (state : AuthorListState) : boolean {
     return state.currentPage < state.totalPages
+  },
+  record (state : AuthorListState) : Author {
+    return state.record
   }
 }

@@ -15,6 +15,9 @@ export const mutations: MutationTree<AuthorListState> = {
     }
     state.currentPage++
   },
+  setRecord (state, payload: Author) {
+    state.record = payload
+  },
   decrementPage (state) {
     if (state.currentPage === null) {
       state.currentPage = 1

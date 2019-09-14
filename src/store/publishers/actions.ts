@@ -14,7 +14,12 @@ export const actions: ActionTree<PublisherListState, RootState> = {
       commit('setMetaData', response.meta)
     })
   },
-  incrementPage ({ commit, state: PublisherListState }): any {
+  fetchRecord ({ commit, state: PublisherListState }, id): any {
+    Publisher.find(id).then((response) => {
+      commit('setRecord', response.data)
+    })
+  },
+  incrementPage ({ commit, state }) {
     commit('incrementPage')
     dispatch('fetchCollection')
   },
