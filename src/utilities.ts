@@ -37,7 +37,27 @@ const listPageMixin = {
   }
 }
 
+const formMixin = {
+  methods: {
+    hasError (field) : boolean {
+      if (this.editableRecord.errors) {
+        return this.editableRecord.errors[field] !== null
+      } else {
+        return false
+      }
+    },
+    errorText (field) : string {
+      if (this.editableRecord.errors && this.editableRecord.errors[field]) {
+        return this.editableRecord.errors[field].message
+      } else {
+        return ''
+      }
+    }
+  }
+}
+
 export {
   loadPaginationMixin,
-  listPageMixin
+  listPageMixin,
+  formMixin
 }

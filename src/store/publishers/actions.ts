@@ -9,13 +9,13 @@ export const actions: ActionTree<PublisherListState, RootState> = {
       .per(50)
       .stats({ total: 'count' })
 
-    scope.all().then((response) => {
+    return scope.all().then((response) => {
       commit('setCollection', response.data)
       commit('setMetaData', response.meta)
     })
   },
   fetchRecord ({ commit, state: PublisherListState }, id): any {
-    Publisher.find(id).then((response) => {
+    return Publisher.find(id).then((response) => {
       commit('setRecord', response.data)
     })
   },

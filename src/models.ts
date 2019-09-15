@@ -46,6 +46,16 @@ export class Book extends ApplicationRecord {
   get fullName () {
     return `${this.firstName} ${this.lastName}`
   }
+
+  async author () {
+    let { data } = await Author.find(this.authorUuid)
+    return data
+  }
+
+  async publisher () {
+    let { data } = await Publisher.find(this.publisherUuid)
+    return data
+  }
 }
 
 @Model()

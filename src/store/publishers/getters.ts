@@ -26,5 +26,8 @@ export default {
   },
   hasNextPage (state : PublisherListState) : boolean {
     return state.currentPage < state.totalPages
+  },
+  record (state : PublisherListState) : Publisher {
+    return state.record
   }
 }

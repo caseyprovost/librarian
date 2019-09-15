@@ -8,6 +8,7 @@ export const state: PublisherListState = {
   collection: [],
   filters: [],
   sorts: [],
+  record: null,
   currentPage: 1,
   totalCount: 0,
   totalPages: 0

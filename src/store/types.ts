@@ -42,4 +42,6 @@ export interface AuthorListState extends PaginatedCollectionState, FilteredColle
 export interface BookListState extends PaginatedCollectionState, FilteredCollectionState {
   collection: Book[] | [];
   record: Book | null;
+  authors: Author[] | [];
+  publishers: Publisher[] | []
 }

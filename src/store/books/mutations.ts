@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex'
 import { BookListState } from '@/store/types'
-import { Book } from '@/models'
+import { Book, Author, Publisher } from '@/models'
 
 export const mutations: MutationTree<BookListState> = {
   setCollection (state, payload : Book[]) {
@@ -8,6 +8,15 @@ export const mutations: MutationTree<BookListState> = {
   },
   setMetaData (state, payload: object) {
     state.totalCount = payload.stats.total.count
+  },
+  setRecord (state, payload: Book) {
+    state.record = payload
+  },
+  setAuthor (state, payload: Author) {
+    state.author = payload
+  },
+  setPublisher (state, payload: Publisher) {
+    state.publisher = payload
   },
   incrementPage (state) {
     if (state.currentPage === null) {
@@ -20,5 +29,11 @@ export const mutations: MutationTree<BookListState> = {
       state.currentPage = 1
     }
     state.currentPage--
+  },
+  setAuthors (state, payload : Author[]) {
+    state.authors = payload
+  },
+  setPublishers (state, payload : Publisher[]) {
+    state.publishers = payload
   }
 }

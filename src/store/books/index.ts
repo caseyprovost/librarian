@@ -8,6 +8,8 @@ export const state: BookListState = {
   collection: [],
   filters: [],
   sorts: [],
+  publishers: [],
+  authors: [],
   currentPage: 1,
   totalCount: 0,
   totalPages: 0
