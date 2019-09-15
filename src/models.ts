@@ -9,7 +9,7 @@ import {
 
 @Model()
 export class ApplicationRecord extends SpraypaintBase {
-  static baseUrl = 'https://bookshelf.book-ecosystem.dev/'
+  static baseUrl = process.env.BOOKSHELF_DOMAIN
   static apiNamespace = 'v1'
   static schemaCache = null
 
@@ -60,7 +60,7 @@ export class Book extends ApplicationRecord {
 
 @Model()
 export class Author extends ApplicationRecord {
-  static baseUrl = 'https://author-registry.book-ecosystem.dev/'
+  static baseUrl = process.env.AUTHORS_DOMAIN
   static apiNamespace = 'v1'
   static schemaCache = null
   static jsonapiType = 'authors'
@@ -77,7 +77,7 @@ export class Author extends ApplicationRecord {
 
 @Model()
 export class Publisher extends ApplicationRecord {
-  static baseUrl = 'https://publisher-registry.book-ecosystem.dev/'
+  static baseUrl = process.env.PUBLISHERS_DOMAIN
   static apiNamespace = 'v1'
   static schemaCache = null
   static jsonapiType = 'publishers'
