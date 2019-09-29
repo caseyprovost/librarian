@@ -34,19 +34,19 @@
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 import { loadPaginationMixin, listPageMixin } from '@/utilities.ts'
 
 const paginationMixin = loadPaginationMixin('publishers')
 
-export default Vue.extend({
-  mixins: [paginationMixin, listPageMixin],
-  methods: {
-    truncateString (str, num) {
-      return str.length > num ? str.slice(0, num > 3 ? num - 3 : num) + '...' : str
-    }
-  }
+@Component({
+  mixins: [paginationMixin, listPageMixin]
 })
+export default class PublisherList extends Vue {
+  truncateString (str, num) {
+    return str.length > num ? str.slice(0, num > 3 ? num - 3 : num) + '...' : str
+  }
+}
 </script>
 
 <style lang="scss" scoped>

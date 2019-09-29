@@ -74,7 +74,7 @@ import { mapGetters } from 'vuex'
 import { Book, Author, Publisher } from '@/models'
 
 @Component
-export default class EditBook extends Vue {
+export default class NewBook extends Vue {
   @Prop() id!: string
 
   editableRecord = null
@@ -88,20 +88,18 @@ export default class EditBook extends Vue {
   }
 
   syncRecord () {
-    this.$store.dispatch('books/fetchRecord', this.id).then(() => {
-      this.editableRecord = this.record.dup()
+    this.editableRecord = new Book()
 
-      this.record.author().then((data) => {
-        this.selectedAuthor = data
-      })
-
-      this.record.publisher().then((data) => {
-        this.selectedPublisher = data
-      })
-
-      this.$store.dispatch('books/fetchPublishers')
-      this.$store.dispatch('books/fetchAuthors')
+    this.editableRecord.author().then((data) => {
+      this.selectedAuthor = data
     })
+
+    this.editableRecord.publisher().then((data) => {
+      this.selectedPublisher = data
+    })
+
+    this.$store.dispatch('books/fetchPublishers')
+    this.$store.dispatch('books/fetchAuthors')
   }
 
   loadPublishers () {
@@ -191,10 +189,6 @@ export default class EditBook extends Vue {
         }
       })
     }
-  }
-
-  get record () : Book | null {
-    return this.$store.getters['books/record']
   }
 
   get authors () : Author[] {

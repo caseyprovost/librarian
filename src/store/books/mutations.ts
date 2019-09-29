@@ -8,6 +8,7 @@ export const mutations: MutationTree<BookListState> = {
   },
   setMetaData (state, payload: object) {
     state.totalCount = payload.stats.total.count
+    state.totalPages = Math.ceil(payload.stats.total.count / 50)
   },
   setRecord (state, payload: Book) {
     state.record = payload

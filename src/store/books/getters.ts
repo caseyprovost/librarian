@@ -18,8 +18,7 @@ export default {
     return state.sorts
   },
   totalPages (state : BookListState) : number {
-    const rawPageCount = (state.totalCount / 50)
-    return Math.ceil(rawPageCount)
+    return state.totalPages
   },
   hasPrevPage (state : BookListState) : boolean {
     return state.currentPage > 1

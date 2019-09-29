@@ -12,7 +12,8 @@ import {
 
 import {
   BookList,
-  EditBook
+  EditBook,
+  NewBook
 } from './views/books'
 
 import {
@@ -65,6 +66,12 @@ export default new Router({
       path: '/books',
       name: 'books',
       component: BookList,
+      beforeEnter: requireUser
+    },
+    {
+      path: '/books/new',
+      name: 'new-book',
+      component: NewBook,
       beforeEnter: requireUser
     },
     {

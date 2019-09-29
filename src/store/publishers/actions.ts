@@ -21,10 +21,10 @@ export const actions: ActionTree<PublisherListState, RootState> = {
   },
   incrementPage ({ commit, state }) {
     commit('incrementPage')
-    dispatch('fetchCollection')
+    this.dispatch('publishers/fetchCollection')
   },
   decrementPage ({ commit, state: PublisherListState }): any {
-    commit('incrementPage')
-    dispatch('fetchCollection')
+    commit('decrementPage')
+    this.dispatch('publishers/fetchCollection')
   }
 }

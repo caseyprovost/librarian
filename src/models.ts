@@ -48,13 +48,21 @@ export class Book extends ApplicationRecord {
   }
 
   async author () {
-    let { data } = await Author.find(this.authorUuid)
-    return data
+    if (this.authorUuid) {
+      let { data } = await Author.find(this.authorUuid)
+      return data
+    } else {
+      return null
+    }
   }
 
   async publisher () {
-    let { data } = await Publisher.find(this.publisherUuid)
-    return data
+    if (this.publisherUuid) {
+      let { data } = await Publisher.find(this.publisherUuid)
+      return data
+    } else {
+      return null
+    }
   }
 }
 

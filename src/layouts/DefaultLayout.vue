@@ -86,7 +86,7 @@ body {
 }
 
 #sidebar {
-  width: 280px;
+  width: 268px;
   border-right: 1px solid #302850;
   border-top: 1px solid #302850;
   box-sizing: border-box;

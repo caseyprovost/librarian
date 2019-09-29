@@ -34,19 +34,21 @@
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 import { loadPaginationMixin, listPageMixin } from '@/utilities.ts'
 
 const paginationMixin = loadPaginationMixin('authors')
 
-export default Vue.extend({
+@Component({
   mixins: [paginationMixin, listPageMixin]
 })
+export default class AuthorList extends Vue {}
 </script>
 
 <style lang="scss" scoped>
 table {
   background: #211C37;
+
   td {
     background: #211C37;
   }

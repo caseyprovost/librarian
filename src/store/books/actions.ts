@@ -5,7 +5,7 @@ import { Book, Publisher, Author } from '@/models'
 export const actions: ActionTree<BookListState, RootState> = {
   fetchCollection ({ commit, state: BookListState }): any {
     const scope = Book
-      .page(this.getters['publishers/currentPage'] || 1)
+      .page(this.getters['books/currentPage'] || 1)
       .per(50)
       .stats({ total: 'count' })
 
@@ -53,10 +53,10 @@ export const actions: ActionTree<BookListState, RootState> = {
   },
   incrementPage ({ commit, state: BookListState }): any {
     commit('incrementPage')
-    dispatch('fetchCollection')
+    this.dispatch('books/fetchCollection')
   },
   decrementPage ({ commit, state: BookListState }): any {
-    commit('incrementPage')
-    dispatch('fetchCollection')
+    commit('decrementPage')
+    this.dispatch('books/fetchCollection')
   }
 }
